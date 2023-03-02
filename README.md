@@ -50,33 +50,15 @@ docker exec -it mongo2 sh -c "mongo --port 30002"
 docker exec -it mongo3 sh -c "mongo --port 30003"
 ```
 
-## How does it work?
-- Starts three instances of Mongo
-- On the first instance it runs the following Mongo Shell command:
-```
-rs.initiate(
-  {
-    _id : 'my-replica-set',
-    members: [
-      { _id : 0, host : "mongo1:30001" },
-      { _id : 1, host : "mongo2:30002" },
-      { _id : 2, host : "mongo3:30003" }
-    ]
-  }
-)
-```
-- This causes all 3 instances to join the replica set named `my-replica-set` and start talking to each other
-- One is elected to become the `PRIMARY` and the other two become `SECONDARY` instances
-- The Docker healthcheck config is used to cause the initialisation of the replica set. More info in the further reading links.
-
 ## Robo 3T
 I used Robo 3T to test it locally and used the following config for the connection:
+Download Robo3T: https://github.com/Studio3T/robomongo
 
 ![Robo 3T Config](https://github.com/UpSync-Dev/docker-compose-mongo-replica-set/raw/main/robo-3t.png)
 
 ## Connecting with URI
 ```
-mongodb://mongo1:30001,mongo2:30002,mongo3:30003/?replicaSet=my-replica-set
+mongodb://mongodb1:27018,mongodb2:27019,mongodb3:27020/?replicaSet=replicaname
 ```
 
 ## Thanks / Further Reading
